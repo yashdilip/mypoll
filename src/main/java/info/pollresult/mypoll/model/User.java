@@ -2,24 +2,30 @@ package info.pollresult.mypoll.model;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="users")
 public class User {
 	@Id
-	private int id;
+	private ObjectId id;
 	private String userName;
 	private String fullName;
 	private String mobileNumber;
 	private String email;
-	//private List<Poll> user_polls;
+	
+	@DBRef(lazy = true)
+	private List<Poll> user_polls;
+	
 	public User() {
 	}
-	public int getId() {
+	public ObjectId getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 	public String getUserName() {
@@ -46,10 +52,10 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	/*public List<Poll> getUser_polls() {
+	public List<Poll> getUser_polls() {
 		return user_polls;
 	}
 	public void setUser_polls(List<Poll> user_polls) {
 		this.user_polls = user_polls;
-	}*/
+	}
 }

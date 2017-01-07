@@ -2,7 +2,9 @@ package info.pollresult.mypoll.model;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import infopollresult.mypoll.Util.PollType;
@@ -10,7 +12,7 @@ import infopollresult.mypoll.Util.PollType;
 @Document(collection="polls")
 public class Poll {
 	@Id
-	private int id;
+	private ObjectId id;
 	private String title;
 	private String description;
 	private PollType pollType;
@@ -18,16 +20,17 @@ public class Poll {
 	private long noCount;
 	private long ratingCount;
 	
-	//private List<Category> categories;
+	@DBRef(lazy = true)
+	private List<Category> categories;
 
 	public Poll() {
 	}
 
-	public int getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 
@@ -79,11 +82,11 @@ public class Poll {
 		this.ratingCount = ratingCount;
 	}
 
-	/*public List<Category> getCategories() {
+	public List<Category> getCategories() {
 		return categories;
 	}
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
-	}*/
+	}
 }
