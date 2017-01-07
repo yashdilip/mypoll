@@ -1,31 +1,38 @@
 package info.pollresult.mypoll.service;
 
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import info.pollresult.mypoll.model.User;
-import info.pollresult.mypoll.repository.UserRepositoryImpl;
+import info.pollresult.mypoll.repository.RoleRepository;
+import info.pollresult.mypoll.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService{
 
 	@Autowired
-	private UserRepositoryImpl userRepositoryImpl;
+	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
-	public void signup(User user) {
-		userRepositoryImpl.signup(user);
+	public void save(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setRoles(new HashSet<>(roleRepository.findAll()));
+		userRepository.save(user);
+		
 	}
 
 	@Override
-	public boolean isUserExist(User user) {
-		return userRepositoryImpl.isUserExit(user.getUserName());
-	}
-
-	@Override
-	public boolean signin(User user) {
-		// TODO Auto-generated method stub
-		return false;
+	public User findByUsername(String username) {
+		return userRepository.findByUsername(username);
 	}
 
 }
