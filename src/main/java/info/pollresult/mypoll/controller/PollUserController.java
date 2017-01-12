@@ -18,7 +18,6 @@ public class PollUserController {
 	
 	@PostMapping(value="/signup")
 	public ResponseEntity createUser(@RequestBody PollUser pollUser){
-		pollUserServiceImpl.signup(pollUser);
 		return new ResponseEntity(pollUser, HttpStatus.OK);
 	}
 }

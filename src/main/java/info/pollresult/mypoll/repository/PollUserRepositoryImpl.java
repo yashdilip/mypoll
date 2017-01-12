@@ -34,15 +34,16 @@ public class PollUserRepositoryImpl implements IPollUserRepository {
 	}
 
 	@Override
-	public void signup(PollUser pollUser) {
+	public void createPollUser(PollUser pollUser) {
 		Poll p = new Poll();
-		p.setTitle("test");
-		p.setDescription("test desc");
-		p.setPollType(PollType.YES_NO);
-		mongoTemplate.insert(p);
-		
+		mongoTemplate.insert(p);		
 		pollUser.setUser_polls(Arrays.asList(p));
 		mongoTemplate.insert(pollUser);
+	}
+
+	@Override
+	public PollUser findByUsername(String username) {
+		return mongoTemplate.findOne(new Query(Criteria.where("userName").is(username)), PollUser.class);
 	}
 
 }

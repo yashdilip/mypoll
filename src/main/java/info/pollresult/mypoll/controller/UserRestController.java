@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import info.pollresult.mypoll.model.PollUser;
 import info.pollresult.mypoll.model.User;
+import info.pollresult.mypoll.service.PollUserServiceImpl;
 import info.pollresult.mypoll.service.SecurityServiceImpl;
 import info.pollresult.mypoll.service.UserServiceImpl;
 import info.pollresult.mypoll.validator.UserValidator;
@@ -28,6 +30,9 @@ public class UserRestController {
 
 	@Autowired
 	private SecurityServiceImpl securityService;
+	
+	@Autowired
+	private PollUserServiceImpl pollUserService;
 
 	@Autowired
 	private UserValidator userValidator;
@@ -45,6 +50,9 @@ public class UserRestController {
 		}
 
 		userService.save(user);
+		PollUser pollUser = new PollUser();
+		pollUser.setUserName(user.getUsername());
+		pollUserService.createPollUser(pollUser);
 		securityService.autologin(user.getUsername(), user.getPasswordConfirm());
 		return new ResponseEntity(user, HttpStatus.OK);
 	}

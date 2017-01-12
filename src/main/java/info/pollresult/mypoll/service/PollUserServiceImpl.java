@@ -13,19 +13,18 @@ public class PollUserServiceImpl implements IPollUserService {
 	private PollUserRepositoryImpl pollUserRepositoryImpl;
 	
 	@Override
-	public void signup(PollUser pollUser) {
-		pollUserRepositoryImpl.signup(pollUser);
-	}
-
-	@Override
 	public boolean isUserExist(PollUser pollUser) {
 		return pollUserRepositoryImpl.isUserExit(pollUser.getUserName());
 	}
 
 	@Override
-	public boolean signin(PollUser pollUser) {
-		// TODO Auto-generated method stub
-		return false;
+	public void createPollUser(PollUser user) {
+		pollUserRepositoryImpl.createPollUser(user);		
+	}
+
+	@Override
+	public PollUser findByUsername(String username) {		
+		return pollUserRepositoryImpl.findByUsername(username);
 	}
 
 }
